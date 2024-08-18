@@ -312,7 +312,7 @@ shellAliases = {
   ",bat" = "cat /sys/class/power_supply/BAT1/capacity";
   "poweroff" = "test  -n $SSH_CLIENT; and echo 'Do you really want to do that?'; or sudo systemctl poweroff";
   ",img" = "imgcat --depth=iterm2"; # only for iterm2 compatible shells
-  ",copy_pass" = "bw get password SSH | osc-copy";
+  ",cpp" = "bw get password SSH | osc-copy";
 #    "exit" = "test -n $SSH_CLIENT && test -n $TMUX; and tmux detatch -P; or builtin exit";
 };
     systemPackages =

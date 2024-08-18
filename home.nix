@@ -61,10 +61,14 @@ rec {
   # '';
   fonts.fontconfig.enable = true;
 
-  home.file.".jupyter/jupyter_lab_config.py".text = "
-  PasswordIdentityProvider.password_required = True
-  PasswordIdentityProvider.password = 'Keilun 1228 Loves Jupyter!'
-";
+  home.file.".jupyter/jupyter_lab_config.py".text = ''
+  c = get_config()
+  c.ServerApp.ip = '0.0.0.0'
+  c.ServerApp.port = 60001
+  c.PasswordIdentityProvider.password_required = True
+  c.PasswordIdentityProvider.password = 'Keilun 1228!'
+
+'';
 home.file.".xinitrc".text = "
   perl -MPOSIX -e '$0=\"Xorg\"; pause' &
   exec gnome-session

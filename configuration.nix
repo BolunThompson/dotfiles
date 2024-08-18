@@ -9,7 +9,7 @@
   imports =
     [
       # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./laptop-hw.nix
     ];
 
   systemd.services.NetworkManager-wait-online.enable = true;

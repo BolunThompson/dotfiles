@@ -324,8 +324,8 @@ shellAliases = {
         netcat-gnu
         nmap
         htop
+        nix-index
         w3m
-        sshpass
         bottom
         inetutils
         viu

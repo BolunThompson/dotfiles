@@ -185,8 +185,8 @@ light.enable = true;
     fish = {
 	enable = true;
     shellInit = "
-    command -v 'direnv' && direnv hook fish | source
-    command -v 'thefuck' && thefuck --alias | source
+    command -v 'direnv' > /dev/null && direnv hook fish | source
+    command -v 'thefuck' > /dev/null && thefuck --alias | source
     export PATH=\"\$PATH:\$HOME/.local/bin:\$HOME/scripts\"
     ";
     };

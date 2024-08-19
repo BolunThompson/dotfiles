@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "admin-scripts": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1724024438,
+        "narHash": "sha256-tfqjmSAoSRfijyDg7ifjWAZ257YQDHWr00JnA1UdSUY=",
+        "owner": "BolunThompson",
+        "repo": "admin-scripts",
+        "rev": "fb175a07f9e29854dc7115c3b474a8078c7c7e00",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BolunThompson",
+        "repo": "admin-scripts",
+        "type": "github"
+      }
+    },
     "agenix": {
       "inputs": {
         "darwin": "darwin",
@@ -241,6 +261,7 @@
     },
     "root": {
       "inputs": {
+        "admin-scripts": "admin-scripts",
         "agenix": "agenix",
         "home-manager": "home-manager_2",
         "hyprland": "hyprland",

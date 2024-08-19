@@ -584,6 +584,14 @@ Type=Application
   };
 
   programs = {
+    git = {
+      enable = true;
+      userName = "Bolun Thompson";
+      userEmail = "me@bolun.dev";
+      aliases = {
+        commit-add = "commit --amend --no-edit";
+      };
+    };
     fish.enable = true;
     emacs = {
       enable = true;

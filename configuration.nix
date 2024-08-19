@@ -187,7 +187,7 @@ light.enable = true;
     shellInit = "
     command -v 'direnv' > /dev/null && direnv hook fish | source
     command -v 'thefuck' > /dev/null && thefuck --alias | source
-    export PATH=\"\$PATH:\$HOME/.local/bin:\$HOME/scripts/bin/\"
+    export PATH=\"\$PATH:\$HOME/.local/bin\"
     ";
     };
     steam = {
@@ -312,7 +312,7 @@ shellAliases = {
   ",bat" = "cat /sys/class/power_supply/BAT1/capacity";
   "poweroff" = "test  -n $SSH_CLIENT; and echo 'Do you really want to do that?'; or sudo systemctl poweroff";
   ",img" = "imgcat --depth=iterm2"; # only for iterm2 compatible shells
-  ",cpp" = "bw get password SSH | osc-copy";
+  ",cpp" = "ssh_pass | osc-copy";
 #    "exit" = "test -n $SSH_CLIENT && test -n $TMUX; and tmux detatch -P; or builtin exit";
 };
     systemPackages =
@@ -321,6 +321,7 @@ shellAliases = {
           ''qemu-system-x86_64 -bios ${pkgs.OVMF.fd}/FV/OVMF.fd "$@"'';
       in
       with pkgs; [
+        inputs.admin-scripts
         netcat-gnu
         nmap
         htop

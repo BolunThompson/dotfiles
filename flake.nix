@@ -7,10 +7,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.agenix.inputs.darwin.follows = "";
     };
+    admin-scripts.url = "github:BolunThompson/admin-scripts";
+    admin-scripts.inputs.nixpkgs.follows = "nixpkgs";
+
     # TODO: Install ranger archives plugin for ranger
     # ranger-archives.url = "github:maximtrp/ranger-archives";
   };
-  outputs =  {self, nixpkgs, home-manager, hyprland, agenix, ... }@attrs: {
+  outputs =  {self, nixpkgs, home-manager, hyprland, agenix, admin-scripts, ... }@attrs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [

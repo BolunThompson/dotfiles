@@ -25,7 +25,6 @@
     enable = true;
   };
 
-  # Bootloader.
   boot.plymouth.enable = true;
   boot.loader = {
     systemd-boot.enable = true;
@@ -35,14 +34,7 @@
   boot.initrd.systemd.enable = true;
   boot.kernelParams = [ "quiet" ];
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   networking.interfaces.wlo1.wakeOnLan.enable = true;
   networking.firewall.enable = true;
@@ -55,25 +47,15 @@
     6881
     9381
     8888
-    # Rust desk
-    8000
-    21115
-    21116
-    21117
-    21118
-    21119
   ];
   networking.firewall.allowedTCPPortRanges = [
     { from = 60000; to = 61000; }
   ];
   networking.firewall.allowedUDPPorts = [ 42000 22 21116 ];
 
-  # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
     LC_IDENTIFICATION = "en_US.UTF-8";
@@ -135,8 +117,8 @@
     };
     steam = {
       enable = true;
-      remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
     };
   };
   security.rtkit.enable = true;
@@ -221,7 +203,6 @@
   };
 
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.defaultUserShell = pkgs.fish;
   users.users.bolun = {
     isNormalUser = true;
@@ -239,11 +220,8 @@
     ];
   };
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment = {
     shells = [ pkgs.fish ];
     shellAliases = {
@@ -257,7 +235,6 @@
       "poweroff" = "ssh_poweroff";
       ",img" = "imgcat --depth=iterm2"; # only for iterm2 compatible shells
       ",cpp" = "passphrase | osc-copy";
-      #    "exit" = "test -n $SSH_CLIENT && test -n $TMUX; and tmux detatch -P; or builtin exit";
     };
     systemPackages =
       let
@@ -306,10 +283,6 @@
       QT_IM_MODULE = "fcitx";
       GTK_IM_MODULE = "fcitx";
       XMODIFIERS = "@im=fcitx";
-      # Attempt to fix printer; cups errors from not being able to access /usr/share/cnpkbidir
-      # TODO: Fix after college apps
-      #LD_PRELOAD = "${pkgs.libredirect.outPath}/lib/libredirect.so"; # TODO: Does doing this globally have performance implications? *dark magic continues*. Crashes firefox at least.
-      #NIX_REDIRECTS = "/usr/share/cnpkbidir/=${pkgs.canon-cups-ufr2.outPath}/share/cnpkbidir/";
       QT_QPA_PLATFORM = "wayland";
       GLFW_IM_MODULE = "fcitx";
       INPUT_METHOD = "fcitx";
@@ -358,20 +331,6 @@
     ";
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];nts
-
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk
@@ -380,5 +339,12 @@
     (nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
 
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }

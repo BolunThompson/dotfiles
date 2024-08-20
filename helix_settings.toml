@@ -1,0 +1,7 @@
+theme = "ayu_dark"
+
+[editor]
+line-number = "relative"
+auto-save = true
+cursor-shape.insert = "bar"
+true-color = true

@@ -2,20 +2,19 @@
   inputs = {
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland.url = "github:hyprwm/Hyprland"; agenix = {
+    hyprland.url = "github:hyprwm/Hyprland";
+    agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.agenix.inputs.darwin.follows = "";
     };
     admin-scripts.url = "github:BolunThompson/admin-scripts";
-    admin-scripts.inputs.nixpkgs.follows = "nixpkgs";
-
-    # TODO: Install ranger archives plugin for ranger
-    # ranger-archives.url = "github:maximtrp/ranger-archives";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
-  outputs =  {self, nixpkgs, home-manager, hyprland, agenix, admin-scripts, ... }@attrs: {
+  outputs = { self, nixpkgs, home-manager, hyprland, admin-scripts, agenix, ... }@attrs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+
       modules = [
         ./configuration.nix
         agenix.nixosModules.default
@@ -31,6 +30,8 @@
       ];
       specialArgs = {
         inputs = attrs;
+        hyprland = hyprland;
+        admin-scripts = admin-scripts;
         nvim-remote = nixpkgs.vimUtils.buildVimPlugin { pname = "nvim-remote"; version = "HEAD"; src = builtins.fetchGit { url = "https://github.com/amitds1997/remote-nvim.nvim.git"; ref = "HEAD"; }; };
         # hard coded until I can figure out how to read it
         ip = {

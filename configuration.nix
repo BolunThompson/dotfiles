@@ -11,62 +11,73 @@
       ./laptop-hw.nix
     ];
 
-  systemd.services.NetworkManager-wait-online.enable = true;
-  systemd.extraConfig = "DefaultLimitNOFILE=104857";
+  nixpkgs.config.allowUnfree = true;
+
   powerManagement.enable = false;
 
-
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu.runAsRoot = true;
-    qemu.vhostUserPackages = [ pkgs.virtiofsd ];
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu.runAsRoot = true;
+      qemu.vhostUserPackages = [ pkgs.virtiofsd ];
+    };
+    docker = {
+      enable = true;
+    };
   };
-  virtualisation.docker = {
-    enable = true;
+
+  boot = {
+    plymouth.enable = true;
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      timeout = 0;
+    };
+    initrd.systemd.enable = true;
+    kernelParams = [ "quiet" ];
   };
 
-  boot.plymouth.enable = true;
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-    timeout = 0;
+  networking = {
+    hostName = "nixos";
+    networkmanager.enable = true;
+    interfaces.wlo1.wakeOnLan.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [
+        22
+        2022
+        80
+        443
+        42000
+        6881
+        9381
+        8888
+      ];
+      allowedTCPPortRanges = [
+        { from = 60000; to = 61000; }
+      ];
+      allowedUDPPorts = [ 42000 22 21116 ];
+    };
   };
-  boot.initrd.systemd.enable = true;
-  boot.kernelParams = [ "quiet" ];
-
-  networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
-  networking.interfaces.wlo1.wakeOnLan.enable = true;
-  networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [
-    22
-    2022
-    80
-    443
-    42000
-    6881
-    9381
-    8888
-  ];
-  networking.firewall.allowedTCPPortRanges = [
-    { from = 60000; to = 61000; }
-  ];
-  networking.firewall.allowedUDPPorts = [ 42000 22 21116 ];
 
   time.timeZone = "America/Los_Angeles";
 
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "en_US.UTF-8";
+      LC_IDENTIFICATION = "en_US.UTF-8";
+      LC_MEASUREMENT = "en_US.UTF-8";
+      LC_MONETARY = "en_US.UTF-8";
+      LC_NAME = "en_US.UTF-8";
+      LC_NUMERIC = "en_US.UTF-8";
+      LC_PAPER = "en_US.UTF-8";
+      LC_TELEPHONE = "en_US.UTF-8";
+      LC_TIME = "en_US.UTF-8";
+    };
+
   };
+
   hardware = {
     graphics = {
       enable = true;
@@ -80,28 +91,42 @@
     pulseaudio.enable = false;
   };
 
-
-  systemd.targets.sleep.enable = false;
-  systemd.targets.suspend.enable = false;
-  systemd.targets.hibernate.enable = false;
-  systemd.targets.hybrid-sleep.enable = false;
-
-  systemd.services.light = {
-    script = "light -S 1";
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
+  systemd = {
+    targets = {
+      sleep.enable = false;
+      suspend.enable = false;
+      hibernate.enable = false;
+      hybrid-sleep.enable = false;
     };
-  };
-  systemd.timers.light = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "daily";
-      Persistent = true;
+
+    services.light = {
+      script = "light -S 1";
+      serviceConfig = {
+        Type = "oneshot";
+        User = "root";
+      };
     };
+    timers.light =
+      {
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "daily";
+          Persistent = true;
+        };
+      };
+
+    services.NetworkManager-wait-online.enable = true;
+
+    extraConfig = "DefaultLimitNOFILE=104857";
+
   };
+
 
   programs = {
+    git = {
+      enable = true;
+      lfs.enable = true;
+    };
     tmux = {
       enable = true;
       extraConfig = builtins.readFile ./tmux.conf;
@@ -128,6 +153,26 @@
     config.common.default = "*"; # old behavior, if there's an issue with portals it could likely be this
   };
   services = {
+    openssh = {
+      enable = true;
+      hostKeys = [
+        {
+          bits = 4096;
+          path = "/etc/ssh/ssh_host_rsa_key";
+          type = "rsa";
+        }
+      ];
+      # I have to control in the extraConfig, not with nix settings
+      # since for some reason the Match passwordAuthentication
+      # doesn't actulaly let me authenticate locally using settings
+      extraConfig = "
+        PasswordAuthentication no
+        PubkeyAuthentication yes
+        Match address ${ip.public-ip}
+          PasswordAuthentication yes
+          ChallengeResponseAuthentication yes
+      ";
+    };
     xserver = {
       enable = true;
       displayManager.gdm.enable = false;
@@ -138,17 +183,14 @@
     fail2ban = {
       enable = true;
       maxretry = 10;
-      # ignoreIP = [
-      #   "76.88.2.159"
-      #   "192.168.0.0/24"
-      # ];
+      ignoreIP = [ ];
     };
-    # openvpn = {
-    #   servers = {
-    #     pureVpn =
-    #       { config = ''config ./usla2.ovpn''; };
-    #   };
-    # };
+    openvpn = {
+      servers = {
+        #     pureVpn =
+        #       { config = ''config ./usla2.ovpn''; };
+      };
+    };
     tlp = {
       enable = false;
       settings = {
@@ -220,8 +262,6 @@
     ];
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   environment = {
     shells = [ pkgs.fish ];
     shellAliases = {
@@ -272,7 +312,6 @@
         links2
         unrar
         tldr
-        git
         bat
         p7zip
       ];
@@ -295,41 +334,6 @@
       NIXOS_OZONE_WL = "1";
     };
   };
-  #programs.kitty = {
-  #    enable = true;
-  #    font = with pkgs; [(nerdfonts.override { fonts = ["FireCode"]; })];
-  #};
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    hostKeys = [
-      {
-        bits = 4096;
-        path = "/etc/ssh/ssh_host_rsa_key";
-        type = "rsa";
-      }
-    ];
-    # I have to control in the extraConfig, not with nix settings
-    # since for some reason the Match passwordAuthentication
-    # doesn't actulaly let me authenticate locally using settings
-    extraConfig = "
-      PasswordAuthentication no
-      PubkeyAuthentication yes
-      Match address ${ip.public-ip}
-        PasswordAuthentication yes
-        ChallengeResponseAuthentication yes
-    ";
-  };
 
   fonts.packages = with pkgs; [
     noto-fonts
@@ -346,5 +350,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }

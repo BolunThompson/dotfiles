@@ -239,9 +239,6 @@
     isNormalUser = true;
     description = "Bolun Thompson";
     extraGroups = [ "docker" "networkmanager" "wheel" "video" "libvirtd" ];
-    packages = with pkgs; [
-      inputs.agenix.packages.${system}.default
-    ];
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCp0dN+tnFtT8PHgQbfe3wvsI12rwjB4HsbqYS9Z2rLLtyeMJPsemnQFuwS14qt6L82l3nF9jk8lyZrNM5jlvbUy2/0pWITkWI3h3rZfkeW3pZIDfbDEkF8Erk2Gpf319jpMWHmV4N0BFY4SywmupKAF8IxZasrEqsCQGqRAqwHgDgjKmoSenh1oGsQRDBLuH3B6X9f4QeB1ws6ZR6SgiX4MiDzBNEaqwsQvmi8fjcoQcm+Ha5SGwj72CS7Rt4fCRlOyMD/6c1fHO12ockR8OTtwD+Cc3K09HIrT1Ej8HG1jmoiqGJVOZlU+pANnYG/kWSvDDIjUDdhM/yNVu6IgMGQNAQLEZ5+4fDlGyAI7jUH/AiV5LtQOkBWVMpoGD06HMXGgB0l//4Yo7LzzgDKAWNkC7qcw9PsHp3VFF7JJFvCYXJxQEJ1XYLHfY7kCVkBjqbl9ppZ/tqhy53kPXy1tWbdT3s+dGxbtkkOe67A6RT7+OJ5fCEyi7zdQBRwZEkGk12lAQLupZPxnwTUaSp6Lmvf9w/sCAlKS6S9JIbX5pg//+rmd340AAdJDkpnagANiktiZATrwuh9F6R/o90ZXQUcvOQsZ4I2RKjW5/5BPA1x1wVjCiXSxsH0XCWt91gylZtM6TJdvLjfs8O6gruBspUqwX1F/GJ7HJAy3I8Gy415Xw== ShellFish@iPad-17062024"
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKEukozAVTOz81c7UghrCNmXP2v8dlkngCvciz6wVtQlhzAUqI0dQnpQUXghMDRu+ZWJz1xjJ4hVmB4z81Q9MvFkIIFqigbvt2+z157CoBlohV0cI/uYOi1UxPNatn/m7j2pee+NfJ9FlbokUhSZTg3H1P4Fs7TSBDD7XmQxRzy4VYHIVqU3CEmhJ/ypqm8LRK9BH5QK0b2xFijFVNy9tZFuFGTRKw0XiZpn5F4ggGepAho24yTNnzXMLRb14CdNteKzTGYYBMc1H9cPCoXZpT9Q2sOWucJBJbd9vnNiyuFVB4xcHBmgGU2XmLq8ckWrVrvuPHWoY4oxJLxCZf19CZ mobile@localhost"

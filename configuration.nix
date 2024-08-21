@@ -52,6 +52,7 @@
         6881
         9381
         8888
+        1965
       ];
       allowedTCPPortRanges = [
         { from = 60000; to = 61000; }
@@ -123,23 +124,12 @@
 
 
   programs = {
-    git = {
-      enable = true;
-      lfs.enable = true;
-    };
-    tmux = {
-      enable = true;
-      extraConfig = builtins.readFile ./tmux.conf;
-    };
+    git.enable = true;
     ssh.startAgent = true;
     light.enable = true;
     dconf.enable = true;
     mosh.enable = true;
-    # should I move this to home.nix?
-    fish = {
-      enable = true;
-      shellInit = builtins.readFile ./config.fish;
-    };
+    fish.enable = true;
     steam = {
       enable = true;
       remotePlay.openFirewall = true;
@@ -179,7 +169,6 @@
       displayManager.startx.enable = true;
       desktopManager.gnome.enable = true;
     };
-    eternal-terminal.enable = true;
     fail2ban = {
       enable = true;
       maxretry = 10;
@@ -245,7 +234,7 @@
   };
 
 
-  users.defaultUserShell = pkgs.fish;
+  users.defaultUserShell = pkgs.bash;
   users.users.bolun = {
     isNormalUser = true;
     description = "Bolun Thompson";
@@ -263,76 +252,7 @@
   };
 
   environment = {
-    shells = [ pkgs.fish ];
-    shellAliases = {
-      ",h" = "sudoedit /etc/nixos/home.nix";
-      ",c" = "sudoedit /etc/nixos/configuration.nix";
-      ",f" = "sudoedit /etc/nixos/flake.nix";
-      ",r" = "sudo nixos-rebuild switch";
-      # ",f" = "$VISUAL flake.nix";
-      ",d" = "nix develop";
-      ",bat" = "cat /sys/class/power_supply/BAT1/capacity";
-      "poweroff" = "ssh_poweroff";
-      ",img" = "imgcat --depth=iterm2"; # only for iterm2 compatible shells
-      ",cpp" = "passphrase | osc-copy";
-    };
-    systemPackages =
-      let
-        qemu_uefi = pkgs.writeScriptBin "qemu-system-x86_64-uefi"
-          ''qemu-system-x86_64 -bios ${pkgs.OVMF.fd}/FV/OVMF.fd "$@"'';
-      in
-      with pkgs; [
-        admin-scripts.packages."${pkgs.system}".default
-        netcat-gnu
-        nmap
-        htop
-        nix-index
-        w3m
-        bottom
-        inetutils
-        viu
-        imgcat
-        nixpkgs-fmt
-        trash-cli
-        jq
-        unzip
-        ripgrep
-        sd
-        gcc
-        gnumake
-        qemu
-        OVMF
-        greetd.greetd
-        greetd.tuigreet
-        qemu_uefi
-        zip
-        file
-        python3
-        fd
-        links2
-        unrar
-        tldr
-        bat
-        p7zip
-      ];
-    variables = {
-      EDITOR = "hx";
-      VISUAL = "hx";
-      SHELL = "fish";
-      QT_IM_MODULE = "fcitx";
-      GTK_IM_MODULE = "fcitx";
-      XMODIFIERS = "@im=fcitx";
-      QT_QPA_PLATFORM = "wayland";
-      GLFW_IM_MODULE = "fcitx";
-      INPUT_METHOD = "fcitx";
-      IMSETTINGS_MODULE = "fcitx";
-      SDL_IM_MODULE = "fcitx";
-    };
-    sessionVariables = {
-      BROWSER = "firefox";
-      TERMINAL = "kitty";
-      NIXOS_OZONE_WL = "1";
-    };
+    shells = [ pkgs.fish pkgs.bash ];
   };
 
   fonts.packages = with pkgs; [

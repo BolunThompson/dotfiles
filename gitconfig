@@ -1,0 +1,46 @@
+# goal: maintain both TOML (for nix) and traditional gitconfig compat
+
+[alias]
+	commit-add = "commit --amend --no-edit"
+
+[user]
+	email = "me@bolun.dev"
+	name = "Bolun Thompson"
+
+[push]
+	autoSetupRemote = true
+
+[merge]
+	conflictStyle = "zdiff3"
+
+[init]
+	defaultBranch = "main"
+
+[commit]
+	verbose = true
+
+[help]
+	autocorrect = "immediate"
+
+[core]
+	pager = "delta"
+
+[interactive]
+	diffFilter = "delta --color-only"
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+
+[diff]
+	algorithm = "histogram"
+	colorMoved = "default"
+
+[url]
+	"git@github.com:".pushInsteadOf = "https://github.com/"
+
+[safe]
+	directory = "/etc/nixos"
+
+transfer.fsckobjects = true
+fetch.fsckobjects = true
+receive.fsckObjects = true

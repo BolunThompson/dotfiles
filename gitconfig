@@ -35,9 +35,6 @@
 	algorithm = "histogram"
 	colorMoved = "default"
 
-[url]
-	"git@github.com:".pushInsteadOf = "https://github.com/"
-
 [safe]
 	directory = "/etc/nixos"
 

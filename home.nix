@@ -128,7 +128,7 @@ rec {
         gh
         glab
 
-        # added by add_prog
+        # added by add_pkg
         ed
         # END PACKAGES
       ];

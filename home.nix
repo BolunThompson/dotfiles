@@ -130,6 +130,7 @@ rec {
 
         # added by add_pkg
         ed
+yt-dlp
         # END PACKAGES
       ];
 

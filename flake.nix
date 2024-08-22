@@ -27,7 +27,7 @@
             ./home.nix
           ];
           home-manager.extraSpecialArgs = {
-              admin-scripts = admin-scripts;
+            admin-scripts = admin-scripts;
           };
 
         }

@@ -45,6 +45,7 @@ rec {
 
       with pkgs; [
         # configuration
+        w3m
         admin-scripts.packages."${pkgs.system}".default
         netcat-gnu
         nmap
@@ -126,6 +127,10 @@ rec {
         git-ignore
         gh
         glab
+
+        # added by add_prog
+        ed
+        # END PACKAGES
       ];
 
     shellAliases = {

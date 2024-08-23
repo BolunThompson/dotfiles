@@ -8,4 +8,4 @@ c.LabApp.open_browser = False
 c.ServerApp.open_browser = False
 c.ExtensionApp.open_browser = False
 
-c.LabApp.password = c.NotebookApp.password = "8a51cf8eb235b1438deb9ccf2497fc49ee1dca1c"
+c.LabApp.password = c.NotebookApp.password = "sha1:197b7fa43b5d83b3a15e89b5b4e893c4e8c91239"

@@ -116,6 +116,21 @@
         };
       };
 
+    services.mv_from_home = {
+      script = "mv_from_home";
+      serviceConfig = {
+        Type = "oneshot";
+        # script assumes a single-user system
+        User = "bolun";
+      };
+    };
+    timers.mv_from_home = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "daily";
+      };
+    };
+
     services.NetworkManager-wait-online.enable = true;
 
     extraConfig = "DefaultLimitNOFILE=104857";

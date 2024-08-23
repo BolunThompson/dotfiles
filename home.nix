@@ -131,6 +131,7 @@ rec {
         # added by add_pkg
         ed
         yt-dlp
+        wcurl
         # END PACKAGES
       ];
 

@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1724423800,
-        "narHash": "sha256-4PIn/tjy08vUoQY4I84Hb8rf8PwaN9ETCRWu9QS9bPw=",
+        "lastModified": 1724424889,
+        "narHash": "sha256-SwnVqv4bY823PooAbP0Dm7JlkATnv332We92Ec7jLQw=",
         "owner": "BolunThompson",
         "repo": "admin-scripts",
-        "rev": "62a92c17a12e379f8a05d382b4dd4dfb36ac2938",
+        "rev": "0102f9fe258e275ca56f02ec0b33b006ec7ac8a7",
         "type": "github"
       },
       "original": {

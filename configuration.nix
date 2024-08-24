@@ -100,36 +100,9 @@
       hybrid-sleep.enable = false;
     };
 
-    services.light = {
-      script = "light -S 1";
-      serviceConfig = {
-        Type = "oneshot";
-        User = "root";
-      };
-    };
-    timers.light =
-      {
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnCalendar = "daily";
-          Persistent = true;
-        };
-      };
-
-    services.mv_from_home = {
-      script = "mv_from_home";
-      serviceConfig = {
-        Type = "oneshot";
-        # script assumes a single-user system
-        User = "bolun";
-      };
-    };
-    timers.mv_from_home = {
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "daily";
-      };
-    };
+    services.nginx.serviceConfig.ReadWritePaths = [
+      "/var/spool/nginx/logs/"
+    ];
 
     services.NetworkManager-wait-online.enable = true;
 
@@ -157,7 +130,30 @@
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     config.common.default = "*"; # old behavior, if there's an issue with portals it could likely be this
   };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "me@bolun.dev";
+  };
   services = {
+    nginx = {
+      enable = true;
+
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+
+      virtualHosts."bolun.dev" = {
+        forceSSL = false;
+        enableACME = true;
+        root = "/var/personal/bolun.dev/l";
+        locations."/jupyter" = {
+          proxyPass = "http://127.0.0.1:8888";
+          proxyWebsockets = true; # needed if you need to use WebSocket
+        };
+      };
+    };
     openssh = {
       enable = true;
       hostKeys = [

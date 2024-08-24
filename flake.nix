@@ -40,6 +40,7 @@
           public-ip = "76.88.2.159";
           private-ip = "192.168.0.167";
         };
+        admin-scripts = admin-scripts;
       };
     };
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;

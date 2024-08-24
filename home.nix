@@ -54,7 +54,6 @@ rec {
         w3m
         bottom
         inetutils
-        viu
         imgcat
         nixpkgs-fmt
         trash-cli
@@ -62,8 +61,6 @@ rec {
         unzip
         ripgrep
         sd
-        gcc
-        gnumake
         qemu
         OVMF
         greetd.greetd
@@ -73,7 +70,6 @@ rec {
         file
         python3
         fd
-        links2
         unrar
         tldr
         bat
@@ -87,12 +83,8 @@ rec {
         discord
         oscclip
         direnv
-        neovim-remote
         glow
-        deno
-        lunarvim
         thefuck
-        xorg.xclock
         qbittorrent
         tor-browser-bundle-bin
         obsidian
@@ -219,6 +211,29 @@ rec {
     };
     playerctld.enable = true;
   };
+
+  # At some point I could refactor these into tradtional systemd service files
+  systemd.user = {
+    services.light.Service = {
+      ExecStart = "${pkgs.light}/bin/light -S 1";
+      Type = "oneshot";
+    };
+    timers.light.Timer = {
+      WantedBy = [ "timers.target" ];
+      OnCalendar = "daily";
+      Persistent = true;
+    };
+
+    services.mv_from_home.Service = {
+      ExecStart = "${admin-scripts.packages.${pkgs.system}.default.outPath}/bin/mv_from_home";
+      Type = "oneshot";
+    };
+    timers.mv_from_home.Timer = {
+      WantedBy = [ "timers.target" ];
+      OnCalendar = "daily";
+    };
+  };
+
 
   programs = {
     git = {

@@ -144,10 +144,10 @@
       recommendedGzipSettings = true;
       recommendedOptimisation = true;
 
-      virtualHosts."bolun.dev" = {
+      virtualHosts."personal.bolun.dev" = {
         forceSSL = false;
         enableACME = true;
-        root = "/var/personal/bolun.dev/l";
+        root = "/var/personal/bolun.dev/";
         locations."/jupyter" = {
           proxyPass = "http://127.0.0.1:8888";
           proxyWebsockets = true; # needed if you need to use WebSocket

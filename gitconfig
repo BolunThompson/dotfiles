@@ -38,6 +38,11 @@
 [safe]
 	directory = "/etc/nixos"
 
-transfer.fsckobjects = true
-fetch.fsckobjects = true
-receive.fsckObjects = true
+[transfer]
+	fsckobjects = true
+
+[fetch]
+	fsckobjects = true
+
+[receive]
+	fsckObjects = true

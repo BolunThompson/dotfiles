@@ -35,6 +35,7 @@ rec {
         ".config/ranger/rc.conf".source = ./rc.conf;
         ".config/ranger/rifle.conf".source = ./rifle.conf;
         ".jupyter/jupyter_lab_config.py".source = ./jupyter_lab_config.py;
+        "config".source = config.lib.file.mkOutOfStoreSymlink "/etc/nixos/";
       };
 
     packages =

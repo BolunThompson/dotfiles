@@ -127,6 +127,9 @@ rec {
         yt-dlp
         wcurl
         unixtools.xxd
+        man-pages
+        stdmanpages
+        man-pages-posix
         # END PACKAGES
       ];
 

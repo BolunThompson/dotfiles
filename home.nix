@@ -126,6 +126,7 @@ rec {
         ed
         yt-dlp
         wcurl
+        unixtools.xxd
         # END PACKAGES
       ];
 

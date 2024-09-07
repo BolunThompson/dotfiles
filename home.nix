@@ -130,6 +130,7 @@ rec {
         man-pages
         stdmanpages
         man-pages-posix
+        btop
         # END PACKAGES
       ];
 

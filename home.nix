@@ -105,8 +105,6 @@ rec {
         libcaca
         hyprpaper
         wl-clipboard
-        libreoffice-fresh
-        texlive.combined.scheme-small
         lutris
         cabextract
         anki
@@ -122,6 +120,11 @@ rec {
         gh
         glab
 
+        # writing helpers
+        libreoffice-fresh
+        texlive.combined.scheme-small
+        marksman
+
         # added by add_pkg
         ed
         yt-dlp
@@ -131,6 +134,8 @@ rec {
         stdmanpages
         man-pages-posix
         btop
+
+        weechat
         # END PACKAGES
       ];
 
@@ -146,6 +151,7 @@ rec {
       ",img" = "imgcat --depth=iterm2"; # only for iterm2 compatible shells
       # TODO: Would be much less needed if ssh agent was properly working
       ",cpp" = "passphrase | osc-copy";
+      ",gil" = "$EDITOR .git/info/exclude";
     };
   };
 

@@ -136,6 +136,7 @@ rec {
         btop
 
         weechat
+        lorri
         # END PACKAGES
       ];
 
